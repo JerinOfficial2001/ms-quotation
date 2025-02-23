@@ -105,7 +105,9 @@ const styles = StyleSheet.create({
 
 export const QuotationPDF = ({ data }: { data: QuotationData }) => {
   // Calculate totals
-  const calculateTotals = (items: QuotationItem[]) => {
+  const calculateTotals = (
+    items: { quantity: any; rate: any; gstRate: any }[]
+  ) => {
     return items.reduce(
       (acc, item) => {
         const amount = item.quantity * item.rate;
