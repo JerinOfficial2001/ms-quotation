@@ -19,3 +19,17 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+  @apply px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-main focus:border-primary-main;
+}
+
+.btn-primary {
+  @apply px-4 py-2 bg-primary-main text-white rounded-md hover:bg-primary-dark transition-colors;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 bg-secondary-main text-white rounded-md hover:bg-secondary-dark transition-colors;
+}

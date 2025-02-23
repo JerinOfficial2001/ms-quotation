@@ -1,0 +1,36 @@
+export const TEXT = {
+  FORM: {
+    TITLE: "Quotation",
+    QUOTATION_NO: "Quotation No",
+    QUOTATION_DATE: "Quotation Date",
+    ADD_VALID_TILL: "Add Valid Till Date",
+    ADD_MORE_FIELDS: "Add More Fields",
+  },
+  BUSINESS: {
+    FROM_SECTION: "Quotation From",
+    TO_SECTION: "Quotation For",
+    BUSINESS_NAME: "Your Business Name",
+    CLIENT_NAME: "Client's business name",
+    GSTIN: "GSTIN",
+    ADDRESS: "Address",
+    CITY: "City",
+    STATE: "State",
+    POSTAL_CODE: "Postal Code / Zip Code",
+  },
+  ITEMS: {
+    ITEM: "Item",
+    HSN_SAC: "HSN/SAC",
+    GST_RATE: "GST Rate",
+    QUANTITY: "Quantity",
+    RATE: "Rate",
+    AMOUNT: "Amount",
+    CGST: "CGST",
+    SGST: "SGST",
+    TOTAL: "Total",
+  },
+  BUTTONS: {
+    SAVE: "Save & Continue",
+    ADD_ITEM: "Add New Line",
+    DOWNLOAD_PDF: "Download PDF",
+  },
+};
