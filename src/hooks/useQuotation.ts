@@ -51,7 +51,7 @@ export default function useQuotation() {
       key: translateText("quotation.VALID_TILL") || "",
       value: formattedDate,
     },
-    logo: "",
+    logo: "/Full_logo.png",
     signature: "",
     business: translateText("BUSINESS.FROM_SECTION") || "",
     client: translateText("CLIENT.TITLE") || "",

@@ -1,3 +1,4 @@
+"use client";
 import { useGlobalStore } from "@/store/useGlobalStore";
 import { Modal } from "@mui/material";
 import React, { useEffect } from "react";
@@ -52,10 +53,18 @@ export default function CustomModal() {
             />
             <InputField
               className="p-2 rounded-lg bg-[var(--border-secondary)]"
-              label="District"
-              value={fromAndTo.additional}
+              label="Address line 1"
+              value={fromAndTo?.additional_line1}
               onChange={(e) => {
-                handleChangeFormData("additional", e.target.value);
+                handleChangeFormData("additional_line1", e.target.value);
+              }}
+            />
+            <InputField
+              className="p-2 rounded-lg bg-[var(--border-secondary)]"
+              label="District"
+              value={fromAndTo.additional_line2}
+              onChange={(e) => {
+                handleChangeFormData("additional_line2", e.target.value);
               }}
             />
             <Button

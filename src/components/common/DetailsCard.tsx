@@ -24,7 +24,9 @@ export default function DetailsCard({
   data,
   handleSelect,
 }: Props) {
-  const [selectedMenu, setselectedMenu] = useState("");
+  const [selectedMenu, setselectedMenu] = useState(
+    "Microgenesis Software Solutions"
+  );
   const { setOpenModal, details } = useGlobalStore();
   return (
     <CardLayout
@@ -89,7 +91,7 @@ export default function DetailsCard({
                   />
                 </Grid2>
               )}
-              <Grid2 size={8}>
+              <Grid2 size={editable ? 8 : 12}>
                 <EditableTypography
                   variant="small"
                   className={`text-[var(--border-primary)] ${
@@ -109,17 +111,24 @@ export default function DetailsCard({
                   />
                 </Grid2>
               )}
-              <Grid2 size={8}>
+              <Grid2 size={editable ? 8 : 12}>
                 <EditableTypography
                   variant="small"
                   className="text-[var(--border-primary)]"
                   text={data.address}
                 />
-                {data.additional && (
+                {data.additional_line1 && (
                   <EditableTypography
                     variant="small"
                     className="text-[var(--border-primary)]"
-                    text={data.additional}
+                    text={data.additional_line1}
+                  />
+                )}
+                {data.additional_line2 && (
+                  <EditableTypography
+                    variant="small"
+                    className="text-[var(--border-primary)]"
+                    text={data.additional_line2}
                   />
                 )}
               </Grid2>

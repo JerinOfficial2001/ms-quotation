@@ -53,13 +53,15 @@ export default function ImageComponent({
             {src && (
               <img
                 className={variant != "signature" ? "" : "h-[130px]"}
-                src={src instanceof File ? URL.createObjectURL(src) : ""}
+                src={src instanceof File ? URL.createObjectURL(src) : src}
                 alt=""
               />
             )}
-            <EditableTypography
-              text={translateText("signatureImage.DESCRIPTION")}
-            />
+            {variant == "signature" && (
+              <EditableTypography
+                text={translateText("signatureImage.DESCRIPTION")}
+              />
+            )}
             {isEditable && (
               <div className="flex items-center w-full ">
                 <Button

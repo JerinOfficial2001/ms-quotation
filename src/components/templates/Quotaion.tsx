@@ -31,7 +31,13 @@ export default function QuotationTemplate({ isEditable }: Props) {
   } = useQuotation();
   const [allDetails, setallDetails] = useState<any>({
     client: null,
-    business: null,
+    business: {
+      name: "Microgenesis Software Solutions",
+      address: "No 3/49A,North Subdistrict,",
+      additional_line1: "Coimbatore,",
+      additional_line2: "Tamil Nadu, India-641110",
+      type: "business",
+    },
   });
   const { details } = useGlobalStore();
   const amount = tableDatas.data?.reduce(

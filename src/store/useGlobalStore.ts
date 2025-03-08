@@ -6,7 +6,8 @@ interface store {
   fromAndTo: {
     name: string;
     address: string;
-    additional: string;
+    additional_line1: string;
+    additional_line2: string;
     type: "client" | "business";
   };
   handleChangeFormData: (key: string, value: any) => void;
@@ -20,10 +21,19 @@ const initialData: any = {
   fromAndTo: {
     name: "",
     address: "",
-    additional: "",
+    additional_line1: "",
+    additional_line2: "",
     type: "client",
   },
-  details: [],
+  details: [
+    {
+      name: "Microgenesis Software Solutions",
+      address: "No 3/49A,North Subdistrict,",
+      additional_line1: "Coimbatore,",
+      additional_line2: "Tamil Nadu, India-641110",
+      type: "business",
+    },
+  ],
 };
 
 export const useGlobalStore = create<store>((set) => ({
