@@ -2,10 +2,14 @@ import { FormHelperText } from "@mui/material";
 import React, { useState } from "react";
 
 type Props = {
-  variant?: "header" | "text" | "title" | "small";
+  variant?: "header" | "text" | "title" | "small" | "placeholder";
   text: string;
   className?: string;
   editabeleType?: "input" | "text";
+  placeholder?: string;
+  type?: string;
+  showRupee?: boolean;
+  showPercent?: boolean;
   setText?: (text: string) => void;
 };
 
@@ -15,6 +19,10 @@ export default function EditableTypography({
   className,
   editabeleType,
   setText,
+  placeholder,
+  type,
+  showRupee,
+  showPercent,
 }: Props) {
   const [isEditable, setisEditable] = useState(false);
   const handleEnableEdit = () => {
@@ -29,7 +37,10 @@ export default function EditableTypography({
   if (isEditable) {
     return (
       <div>
+        {showRupee && "₹ "}
         <input
+          type={type}
+          placeholder={placeholder}
           className={`${
             className || ""
           } border-b-[1px] border-[var(--border-primary)] outline-none`}
@@ -37,6 +48,8 @@ export default function EditableTypography({
           onBlur={text ? handleDisableEdit : undefined}
           onChange={handleTextChange}
         />
+        {showPercent && "%"}
+
         {!text && (
           <FormHelperText
             sx={{
@@ -60,7 +73,8 @@ export default function EditableTypography({
           "cursor-pointer border-b-[1px] border-dashed border-[var(--border-primary)]"
         }`}
       >
-        {text}
+        {showRupee && "₹"} {placeholder && !text ? placeholder : text}
+        {showPercent && "%"}
       </p>
     );
   } else if (variant == "header") {
@@ -94,7 +108,16 @@ export default function EditableTypography({
         className={`${className || ""} ${
           editabeleType &&
           "cursor-pointer border-b-[1px] border-dashed border-[var(--border-primary)]"
-        } text-[0.875rem]`}
+        } text-[16px]`}
+      >
+        {text}
+      </p>
+    );
+  } else if (variant == "placeholder") {
+    return (
+      <p
+        onClick={editabeleType ? handleEnableEdit : undefined}
+        className={`text-[14px] text-[var(--border-primary)]`}
       >
         {text}
       </p>

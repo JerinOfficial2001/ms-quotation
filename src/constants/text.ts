@@ -16,6 +16,7 @@ export const TEXT = {
     TITLE: "Signature",
     RESET: "Reset",
     BUTTON: "Upload Signature",
+    DESCRIPTION: "Authorised Signatory",
   },
   quotation: {
     TITLE: "Quotation",
@@ -47,9 +48,17 @@ export const TEXT = {
     SGST: "SGST",
     TOTAL: "Total",
   },
+  TERMS_AND_CONDIITION: {
+    TITLE: "Terms and Conditions",
+    NEW_TERM: "Add New Term",
+    NEW_GROUP: "Add New Group",
+  },
   BUTTONS: {
     SAVE: "Save & Continue",
     ADD_ITEM: "Add New Line",
     DOWNLOAD_PDF: "Download PDF",
+    ENABLE_GST: "Show GST",
+    DISABLE_GST: "Hide GST",
+    ADDITION_INFO: "Add Additional Info",
   },
 };

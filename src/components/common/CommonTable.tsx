@@ -27,6 +27,8 @@ import {
 } from "@mui/icons-material";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
+import Close from "@/assets/svgs/Close";
+import EditableTypography from "./EditableTypography";
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "& .MuiTableCell-root": {
@@ -38,6 +40,7 @@ type Props = {
   showCheckBox?: boolean;
   setselectedFilter?: any;
   isLoading?: boolean;
+  editable?: boolean;
   totalRecords?: any;
   data?: any;
   sortColumn?: any;
@@ -52,6 +55,8 @@ type Props = {
   onhandleExport?: any;
   onSearchTextChange?: any;
   additionalHeader?: any;
+  handleTableDatas?: any;
+  handleRemoveData?: any;
 };
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -155,6 +160,7 @@ const tableBodyCellCommonStyle = (notMaxWidth?: boolean) => {
   };
 };
 const CommonTable = ({
+  editable,
   showCheckBox,
   setselectedFilter,
   isLoading,
@@ -171,6 +177,8 @@ const CommonTable = ({
   onhandleExport,
   onSearchTextChange,
   additionalHeader,
+  handleTableDatas,
+  handleRemoveData,
 }: Props) => {
   // ** Table Skeleton Function
   function TableSkeletonData(
@@ -234,25 +242,8 @@ const CommonTable = ({
             </TableCell>
           )}
           {Object.keys(columnLabels).map((column, index1) => {
-            if (column === "email") {
-              return (
-                <TableCell
-                  style={{
-                    ...tableBodyCellCommonStyle(true),
-                  }}
-                  title={row[column]}
-                  key={column}
-
-                  // onClick={(event) => handleRowSelect(row)}
-                >
-                  <Stack direction={"row"} gap={1.5} alignItems={"center"}>
-                    <Avatar {...stringAvatar(row[column])} />
-                    {row[column]}
-                  </Stack>
-                </TableCell>
-              );
-            } else if (column === "action") {
-              return (
+            if (column === "action") {
+              return editable ? (
                 <TableCell
                   key={column}
                   sx={{ width: "auto", maxWidth: "auto" }}
@@ -261,9 +252,48 @@ const CommonTable = ({
                   // aria-expanded={open ? "true" : undefined}
                   // onClick={(event) => handleMenuClick(event, index)}
                 >
-                  <IconButton sx={{ padding: 0 }}>
-                    <Delete />
+                  <IconButton
+                    onClick={() => handleRemoveData(index)}
+                    sx={{ padding: 0 }}
+                  >
+                    <Close />
                   </IconButton>
+                </TableCell>
+              ) : null;
+            } else if (column == "item") {
+              return (
+                <TableCell
+                  style={{
+                    ...tableBodyCellCommonStyle(),
+                  }}
+                  title={row[column]}
+                  key={column}
+                >
+                  <EditableTypography
+                    placeholder="Name"
+                    setText={(value) =>
+                      handleTableDatas("data", value, column, index)
+                    }
+                    editabeleType={editable ? "text" : undefined}
+                    text={row[column]}
+                  />
+                </TableCell>
+              );
+            } else if (column == "total") {
+              return (
+                <TableCell
+                  style={{
+                    ...tableBodyCellCommonStyle(),
+                  }}
+                  title={row[column]}
+                  key={column}
+                >
+                  <EditableTypography
+                    showRupee={true}
+                    text={row[column]}
+                    type="number"
+                    className="!w-fill"
+                  />
                 </TableCell>
               );
             } else {
@@ -275,7 +305,39 @@ const CommonTable = ({
                   title={row[column]}
                   key={column}
                 >
-                  {row[column]}
+                  <EditableTypography
+                    setText={(value) => {
+                      handleTableDatas("data", value, column, index);
+                      if (column == "rate" || column == "quantity") {
+                        handleTableDatas(
+                          "data",
+                          column == "rate"
+                            ? row.quantity * parseInt(value)
+                            : parseInt(value) * row.rate,
+                          "amount",
+                          index
+                        );
+                        handleTableDatas(
+                          "data",
+                          column == "rate"
+                            ? row.quantity * parseInt(value)
+                            : parseInt(value) * row.rate,
+                          "total",
+                          index
+                        );
+                      }
+                    }}
+                    editabeleType={editable ? "text" : undefined}
+                    showRupee={
+                      column == "amount" ||
+                      column == "rate" ||
+                      column == "total"
+                    }
+                    showPercent={column == "GST"}
+                    text={row[column]}
+                    type="number"
+                    className="!w-fill"
+                  />
                 </TableCell>
               );
             }
@@ -285,7 +347,7 @@ const CommonTable = ({
     });
   };
   return (
-    <div>
+    <div className="w-full">
       {additionalHeader && (
         <Grid
           container
@@ -329,16 +391,14 @@ const CommonTable = ({
                 )}
                 {Object.keys(columnLabels).map((column) => {
                   if (columnLabels[column] == "Action") {
-                    return (
+                    return editable ? (
                       <TableCell
                         key={column}
                         style={tableHeadCellCommonStyle}
                         title={columnLabels[column]}
                         sx={{ width: "auto" }}
-                      >
-                        {columnLabels[column]}
-                      </TableCell>
-                    );
+                      ></TableCell>
+                    ) : null;
                   } else {
                     return (
                       <TableCell

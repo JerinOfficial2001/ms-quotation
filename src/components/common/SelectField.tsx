@@ -1,15 +1,41 @@
 import React from "react";
 import Button from "./Button";
-import { Select } from "@mui/material";
+import { MenuItem, Select } from "@mui/material";
 
 type Props = {
   buttonName?: string;
   buttonOnclick?: () => void;
+  value: any;
+  onChange: any;
+  options: {
+    label: string;
+    value: any;
+  }[];
 };
 
-export default function SelectField({ buttonName, buttonOnclick }: Props) {
+export default function SelectField({
+  buttonName,
+  buttonOnclick,
+  value,
+  onChange,
+  options,
+}: Props) {
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
   return (
     <Select
+      onChange={onChange}
+      value={value}
+      MenuProps={MenuProps}
+      size="small"
       sx={{
         background: "var(--white)",
         "& .MuiOutlinedInput-notchedOutline": {
@@ -24,13 +50,21 @@ export default function SelectField({ buttonName, buttonOnclick }: Props) {
         },
       }}
     >
-      <option className="p-3 hover:bg-[--background]" value="1">
-        Option 1
-      </option>
+      {options?.map((elem: any, index: number) => {
+        return (
+          <MenuItem
+            key={index}
+            className="p-3 hover:bg-[--background]"
+            value={elem.value}
+          >
+            {elem.label}
+          </MenuItem>
+        );
+      })}
 
       {buttonName && (
         <div
-          className="p-3 flex justify-center items-center"
+          className="bg-white p-3 sticky bottom-0 flex justify-center items-center"
           style={{
             boxShadow: "0px -10px 10px 0px var(--shadow)",
           }}

@@ -1,5 +1,6 @@
 import { FormHelperText } from "@mui/material";
 import React from "react";
+import EditableTypography from "./EditableTypography";
 
 type Props = {
   variant?: "primary" | "secondary";
@@ -11,6 +12,7 @@ type Props = {
   helperText?: string;
   disabled?: boolean;
   error?: boolean;
+  label?: string;
 };
 
 export default function InputField({
@@ -23,9 +25,11 @@ export default function InputField({
   helperText,
   disabled,
   error,
+  label,
 }: Props) {
   return (
     <div className="w-full">
+      {label && <EditableTypography text={label} />}
       <input
         disabled={disabled}
         placeholder={placeholder}
