@@ -1,3 +1,8 @@
+import { translateText } from "@/helperFunction";
+import {
+  GET_FROM_STORAGE,
+  POST_TO_STORAGE,
+} from "@/utils/localstorage.service";
 import { create } from "zustand";
 
 interface store {
@@ -25,15 +30,17 @@ const initialData: any = {
     additional_line2: "",
     type: "client",
   },
-  details: [
-    {
-      name: "Microgenesis Software Solutions",
-      address: "No 3/49A,North Subdistrict,",
-      additional_line1: "Coimbatore,",
-      additional_line2: "Tamil Nadu, India-641110",
-      type: "business",
-    },
-  ],
+  details: GET_FROM_STORAGE(translateText("STORAGE.DETAILS"))
+    ? GET_FROM_STORAGE(translateText("STORAGE.DETAILS"))
+    : [
+        {
+          name: "Microgenesis Software Solutions",
+          address: "No 3/49A,North Subdistrict,",
+          additional_line1: "Coimbatore,",
+          additional_line2: "Tamil Nadu, India-641110",
+          type: "business",
+        },
+      ],
 };
 
 export const useGlobalStore = create<store>((set) => ({
@@ -45,6 +52,10 @@ export const useGlobalStore = create<store>((set) => ({
     }),
   handleAddDetails: (value) =>
     set((prev) => {
+      POST_TO_STORAGE(
+        [...prev.details, value],
+        translateText("STORAGE.DETAILS")
+      );
       return { details: [...prev.details, value] };
     }),
   handleReset: (form) => set({ [form]: initialData[form] }),

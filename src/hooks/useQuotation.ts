@@ -1,5 +1,6 @@
 import { translateText } from "@/helperFunction";
 import { useGlobalStore } from "@/store/useGlobalStore";
+import { GET_FROM_STORAGE } from "@/utils/localstorage.service";
 import React, { useState } from "react";
 
 type Props = {};
@@ -57,7 +58,11 @@ export default function useQuotation() {
     client: translateText("CLIENT.TITLE") || "",
     terms_title: translateText("TERMS_AND_CONDIITION.TITLE") || "",
   });
-  const [termsAndConditons, setTermsAndConditons] = useState<any>([]);
+  const [termsAndConditons, setTermsAndConditons] = useState<any>(
+    GET_FROM_STORAGE(translateText("STORAGE.TERMS"))
+      ? [...GET_FROM_STORAGE(translateText("STORAGE.TERMS"))]
+      : []
+  );
   const handleForm = (
     key: string,
     value: string,
@@ -166,6 +171,18 @@ export default function useQuotation() {
     }
     setTermsAndConditons(tempTerms);
   };
+  const handleDeleteTerm = (index: number, nestedIndex?: number) => {
+    let tempTerms: any = [...termsAndConditons];
+
+    if (nestedIndex) {
+      tempTerms[index].conditions = tempTerms[index]?.conditions.filter(
+        (_: any, i: number) => i != nestedIndex
+      );
+    } else {
+      tempTerms = tempTerms.filter((_: any, i: number) => i != index);
+    }
+    setTermsAndConditons(tempTerms);
+  };
   return {
     handleRemoveData,
     handleTableDatas,
@@ -175,5 +192,6 @@ export default function useQuotation() {
     detailsData,
     termsAndConditons,
     handleTerm,
+    handleDeleteTerm,
   };
 }

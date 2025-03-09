@@ -10,7 +10,6 @@ import {
   TextField,
   TablePagination,
   Checkbox,
-  Button,
   Typography,
   IconButton,
   Box,
@@ -20,15 +19,14 @@ import Grid from "@mui/material/Grid2";
 
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 // ** MUI ICON Components
-import {
-  KeyboardArrowUp,
-  KeyboardArrowDown,
-  Delete,
-} from "@mui/icons-material";
+import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
 import Close from "@/assets/svgs/Close";
 import EditableTypography from "./EditableTypography";
+import { translateText } from "@/helperFunction";
+import Button from "./Button";
+import { useState } from "react";
+import TextEditor from "./TextEditor";
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "& .MuiTableCell-root": {
@@ -225,6 +223,20 @@ const CommonTable = ({
     onhandleExport(selectedRows);
   };
   const isRowSelected = (row: any) => selectedRows?.indexOf(row) !== -1;
+  const [editingDescriptionIndex, setEditingDescriptionIndex] = useState<
+    number | null
+  >(null);
+  const [description, setDescription] = useState<string>("");
+
+  const handleAddDescription = (index: number) => {
+    setEditingDescriptionIndex(index);
+    setDescription(""); // Reset description when adding a new one
+  };
+
+  const handleSaveDescription = (index: number) => {
+    handleTableDatas("data", description, "description", index);
+    setEditingDescriptionIndex(null);
+  };
   const formedTrows = () => {
     return data.map((row: any, index: number) => {
       return (
@@ -265,6 +277,9 @@ const CommonTable = ({
                 <TableCell
                   style={{
                     ...tableBodyCellCommonStyle(),
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
                   }}
                   title={row[column]}
                   key={column}
@@ -277,6 +292,28 @@ const CommonTable = ({
                     editabeleType={editable ? "text" : undefined}
                     text={row[column]}
                   />
+                  {editable && (
+                    <>
+                      {editingDescriptionIndex === index ? (
+                        <>
+                          <TextEditor
+                          // value={description}
+                          // onChange={(value) => setDescription(value)}
+                          />
+                          <Button
+                            onClick={() => handleSaveDescription(index)}
+                            text={translateText("BUTTONS.SAVE_DESCRIPTION")}
+                          />
+                        </>
+                      ) : (
+                        <Button
+                          onClick={() => handleAddDescription(index)}
+                          className="border border-dashed border-[var(--icon-color)] hover:bg-[var(--background)]"
+                          text={translateText("BUTTONS.ADD_DESCRIPTION")}
+                        />
+                      )}
+                    </>
+                  )}
                 </TableCell>
               );
             } else if (column == "total") {

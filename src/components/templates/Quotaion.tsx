@@ -13,6 +13,8 @@ import CommonTable from "../common/CommonTable";
 import DetailsCard from "../common/DetailsCard";
 import { useGlobalStore } from "@/store/useGlobalStore";
 import ImageComponent from "../common/ImageComponent";
+import { POST_TO_STORAGE } from "@/utils/localstorage.service";
+import toast from "react-hot-toast";
 
 type Props = {
   isEditable?: boolean;
@@ -28,6 +30,7 @@ export default function QuotationTemplate({ isEditable }: Props) {
     detailsData,
     handleTerm,
     termsAndConditons,
+    handleDeleteTerm,
   } = useQuotation();
   const [allDetails, setallDetails] = useState<any>({
     client: null,
@@ -327,12 +330,28 @@ export default function QuotationTemplate({ isEditable }: Props) {
           />
         </div>
       )}
+
       {termsAndConditons.length > 0 && (
         <CardLayout
           className={`${
             !isEditable && "!bg-transparent !shadow-none"
           } flex flex-col gap-2`}
         >
+          {isEditable && (
+            <div className="flex flex-row-reverse items-center w-full">
+              <Button
+                variant="primary"
+                onClick={() => {
+                  POST_TO_STORAGE(
+                    termsAndConditons,
+                    translateText("STORAGE.TERMS")
+                  );
+                  toast.success("Terms stored to storage");
+                }}
+                text={translateText("BUTTONS.SAVE")}
+              />
+            </div>
+          )}
           {termsAndConditons.map((elem: any, index: number) => {
             return (
               <div className="flex flex-col gap-3" key={index}>
@@ -352,6 +371,7 @@ export default function QuotationTemplate({ isEditable }: Props) {
                       >
                         <EditableTypography text={`${condition_index + 1}.`} />
                         <InputField
+                          isEditable={isEditable}
                           className={`bg-transparent ${
                             !isEditable ? "!border-none" : ""
                           }`}
@@ -359,6 +379,10 @@ export default function QuotationTemplate({ isEditable }: Props) {
                           onChange={(e) =>
                             handleTerm(index, e.target.value, condition_index)
                           }
+                          showDelete={true}
+                          handleDelete={() => {
+                            handleDeleteTerm(index, condition_index);
+                          }}
                         />
                       </div>
                     );

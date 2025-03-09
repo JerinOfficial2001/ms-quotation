@@ -1,11 +1,12 @@
 "use client";
 import { useGlobalStore } from "@/store/useGlobalStore";
 import { Modal } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "./InputField";
 import EditableTypography from "./EditableTypography";
 import Button from "./Button";
 import { toast } from "react-hot-toast";
+import { setDataToLocalStorage } from "@/utils/localstorage.service";
 
 export default function CustomModal() {
   const {
@@ -21,7 +22,7 @@ export default function CustomModal() {
       handleChangeFormData("type", openModal);
     }
   }, [openModal]);
-
+  const [backup_file, setbackup_file] = useState(null);
   return (
     <Modal
       open={!!openModal}
@@ -75,6 +76,32 @@ export default function CustomModal() {
                   handleReset("fromAndTo");
                 } else {
                   toast.error("All fields are mandatory");
+                }
+              }}
+              variant="primary"
+              text="Submit"
+            />
+          </>
+        ) : openModal == "backup" ? (
+          <>
+            <InputField
+              className="p-2 rounded-lg bg-[var(--border-secondary)]"
+              accept=".json"
+              onChange={(e: any) => {
+                const file = e.target.files[0];
+                if (file) {
+                  setbackup_file(file);
+                }
+              }}
+              type="file"
+            />
+            <Button
+              onClick={() => {
+                if (backup_file) {
+                  setDataToLocalStorage(backup_file);
+                  setOpenModal("");
+                } else {
+                  toast.error("Backup file is required");
                 }
               }}
               variant="primary"

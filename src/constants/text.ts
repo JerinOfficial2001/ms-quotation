@@ -54,11 +54,17 @@ export const TEXT = {
     NEW_GROUP: "Add New Group",
   },
   BUTTONS: {
-    SAVE: "Save & Continue",
+    SAVE: "Save",
     ADD_ITEM: "Add New Line",
     DOWNLOAD_PDF: "Download PDF",
     ENABLE_GST: "Show GST",
     DISABLE_GST: "Hide GST",
     ADDITION_INFO: "Add Additional Info",
+    ADD_DESCRIPTION: "Add Description",
+    SAVE_DESCRIPTION: "Save Description",
+  },
+  STORAGE: {
+    DETAILS: "details",
+    TERMS: "terms",
   },
 };

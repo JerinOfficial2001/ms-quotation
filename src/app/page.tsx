@@ -2,6 +2,11 @@
 
 import Button from "@/components/common/Button";
 import QuotationTemplate from "@/components/templates/Quotaion";
+import { useGlobalStore } from "@/store/useGlobalStore";
+import {
+  downloadBackupFile,
+  GET_FROM_STORAGE,
+} from "@/utils/localstorage.service";
 import { Box } from "@mui/material";
 import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -10,6 +15,7 @@ export default function Home() {
   const printRef = useRef(null);
   const printToPdf = useReactToPrint({ contentRef: printRef });
   const [isEditable, setisEditable] = useState(false);
+  const { setOpenModal } = useGlobalStore();
   return (
     <main className="min-h-screen bg-background-default py-8">
       <div className="max-w-[95%] sm:max-w-[auto] mx-auto ">
@@ -33,12 +39,29 @@ export default function Home() {
             text={isEditable ? "Done" : "Edit"}
             className="mb-10"
           />
+          <Button
+            onClick={() => {
+              setOpenModal("backup");
+            }}
+            variant="primary"
+            text={"Upload Backup"}
+            className="mb-10"
+          />
           {!isEditable && (
             <Button
               onClick={printToPdf}
               variant="primary"
               text="Print"
               className="mb-10"
+            />
+          )}
+        </div>
+        <div className="w-full flex flex-row-reverse items-center justify-between">
+          {GET_FROM_STORAGE() && (
+            <Button
+              variant="primary"
+              text={"Download Backup file"}
+              onClick={downloadBackupFile}
             />
           )}
         </div>
