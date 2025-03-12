@@ -27,6 +27,7 @@ import { translateText } from "@/helperFunction";
 import Button from "./Button";
 import { useState } from "react";
 import TextEditor from "./TextEditor";
+import ListInputs from "./ListInputs";
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "& .MuiTableCell-root": {
@@ -228,9 +229,18 @@ const CommonTable = ({
   >(null);
   const [description, setDescription] = useState<string>("");
 
+  const [descriptions, setdescriptions] = useState<any>([]);
   const handleAddDescription = (index: number) => {
     setEditingDescriptionIndex(index);
     setDescription(""); // Reset description when adding a new one
+    if (descriptions.length == 0) {
+      setdescriptions([
+        {
+          title: "Add your new description",
+          conditions: [" "],
+        },
+      ]);
+    }
   };
 
   const handleSaveDescription = (index: number) => {
@@ -292,27 +302,32 @@ const CommonTable = ({
                     editabeleType={editable ? "text" : undefined}
                     text={row[column]}
                   />
-                  {editable && (
-                    <>
-                      {editingDescriptionIndex === index ? (
-                        <>
-                          <TextEditor
-                          // value={description}
-                          // onChange={(value) => setDescription(value)}
-                          />
-                          <Button
-                            onClick={() => handleSaveDescription(index)}
-                            text={translateText("BUTTONS.SAVE_DESCRIPTION")}
-                          />
-                        </>
-                      ) : (
-                        <Button
-                          onClick={() => handleAddDescription(index)}
-                          className="border border-dashed border-[var(--icon-color)] hover:bg-[var(--background)]"
-                          text={translateText("BUTTONS.ADD_DESCRIPTION")}
-                        />
-                      )}
-                    </>
+
+                  {editingDescriptionIndex === index ? (
+                    <ListInputs
+                      handleSave={() => {
+                        handleTableDatas(
+                          "data",
+                          descriptions,
+                          "descriptions",
+                          index
+                        );
+                      }}
+                      addChildButtonName="Add description"
+                      addGroupButtonName="Add Title"
+                      datas={descriptions}
+                      setDatas={setdescriptions}
+                      defaultTitle="Add your description"
+                      isEditable={editable}
+                    />
+                  ) : (
+                    editable && (
+                      <Button
+                        onClick={() => handleAddDescription(index)}
+                        className="border border-dashed border-[var(--icon-color)] hover:bg-[var(--background)]"
+                        text={translateText("BUTTONS.ADD_DESCRIPTION")}
+                      />
+                    )
                   )}
                 </TableCell>
               );

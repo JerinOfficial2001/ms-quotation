@@ -3,6 +3,12 @@ import toast from "react-hot-toast";
 const key: string = process.env.NEXT_PUBLIC_STORAGE_KEY || "";
 
 export const POST_TO_STORAGE = (value: any, index_key?: string) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+  if (!window || typeof window == undefined) {
+    return;
+  }
   const cache = localStorage.getItem(key);
   let storage: any = {};
   if (cache) {
@@ -16,6 +22,12 @@ export const POST_TO_STORAGE = (value: any, index_key?: string) => {
   localStorage.setItem(key, JSON.stringify(storage));
 };
 export const GET_FROM_STORAGE = (index_key?: string) => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+  if (!window || typeof window == undefined) {
+    return null;
+  }
   const cache = localStorage.getItem(key);
   if (!cache) {
     return null;
@@ -27,6 +39,9 @@ export const GET_FROM_STORAGE = (index_key?: string) => {
   return storage;
 };
 export const downloadBackupFile = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
   const data = GET_FROM_STORAGE();
   const fileName = "ms_quotation_backup.json";
   const jsonData = JSON.stringify(data, null, 2);
@@ -41,6 +56,9 @@ export const downloadBackupFile = () => {
   link.click();
 };
 export const setDataToLocalStorage = (file: File) => {
+  if (typeof window === "undefined") {
+    return;
+  }
   const reader: any = new FileReader();
 
   reader.onload = () => {

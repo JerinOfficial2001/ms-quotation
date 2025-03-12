@@ -95,5 +95,31 @@ export default function Button({
         />
       </>
     );
+  } else if (variant == "secondary") {
+    return (
+      <>
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          type={type || "button"}
+          disabled={disabled}
+          onClick={onClick}
+          className={`${
+            className || ""
+          } w-1/2 border border-dashed border-[var(--icon-color)] hover:bg-[var(--background)] rounded-md`}
+        >
+          {iconPosition === "left" && icon}
+          {loading ? "Loading..." : text}
+          {iconPosition === "right" && icon}
+        </motion.button>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleFileChange}
+        />
+      </>
+    );
   }
 }

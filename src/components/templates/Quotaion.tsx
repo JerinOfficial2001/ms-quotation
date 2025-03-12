@@ -5,16 +5,14 @@ import useQuotation from "@/hooks/useQuotation";
 import { Grid2 } from "@mui/material";
 import InputField from "../common/InputField";
 import CardLayout from "../common/CardLayout";
-import ImageIcon from "@/assets/svgs/ImageIcon";
 import Button from "../common/Button";
-import Close from "@/assets/svgs/Close";
-import { EditOutlined } from "@mui/icons-material";
 import CommonTable from "../common/CommonTable";
 import DetailsCard from "../common/DetailsCard";
 import { useGlobalStore } from "@/store/useGlobalStore";
 import ImageComponent from "../common/ImageComponent";
 import { POST_TO_STORAGE } from "@/utils/localstorage.service";
 import toast from "react-hot-toast";
+import ListInputs from "../common/ListInputs";
 
 type Props = {
   isEditable?: boolean;
@@ -30,6 +28,7 @@ export default function QuotationTemplate({ isEditable }: Props) {
     detailsData,
     handleTerm,
     termsAndConditons,
+    setTermsAndConditons,
     handleDeleteTerm,
   } = useQuotation();
   const [allDetails, setallDetails] = useState<any>({
@@ -58,7 +57,7 @@ export default function QuotationTemplate({ isEditable }: Props) {
       }}
       className={`${
         isEditable ? "items-center" : "items-start"
-      } relative bg-[var(--white)] rounded-xl p-[60px] max-w-[1024px] h-full flex flex-col justify-center gap-10`}
+      } relative bg-[var(--white)] rounded-xl p-[10px] sm:p-[60px] max-w-[1024px] h-full flex flex-col justify-center gap-10`}
     >
       <EditableTypography
         variant="header"
@@ -332,94 +331,18 @@ export default function QuotationTemplate({ isEditable }: Props) {
       )}
 
       {termsAndConditons.length > 0 && (
-        <CardLayout
-          className={`${
-            !isEditable && "!bg-transparent !shadow-none"
-          } flex flex-col gap-2`}
-        >
-          {isEditable && (
-            <div className="flex flex-row-reverse items-center w-full">
-              <Button
-                variant="primary"
-                onClick={() => {
-                  POST_TO_STORAGE(
-                    termsAndConditons,
-                    translateText("STORAGE.TERMS")
-                  );
-                  toast.success("Terms stored to storage");
-                }}
-                text={translateText("BUTTONS.SAVE")}
-              />
-            </div>
-          )}
-          {termsAndConditons.map((elem: any, index: number) => {
-            return (
-              <div className="flex flex-col gap-3" key={index}>
-                <EditableTypography
-                  className="!text-[16px]"
-                  variant="title"
-                  editabeleType={isEditable ? "text" : undefined}
-                  text={elem.title}
-                  setText={(text) => handleTerm(index, text)}
-                />
-                {elem.conditions.map(
-                  (condition: any, condition_index: number) => {
-                    return (
-                      <div
-                        className="flex gap-1 items-start justify-center"
-                        key={condition_index}
-                      >
-                        <EditableTypography text={`${condition_index + 1}.`} />
-                        <InputField
-                          isEditable={isEditable}
-                          className={`bg-transparent ${
-                            !isEditable ? "!border-none" : ""
-                          }`}
-                          value={condition}
-                          onChange={(e) =>
-                            handleTerm(index, e.target.value, condition_index)
-                          }
-                          showDelete={true}
-                          handleDelete={() => {
-                            handleDeleteTerm(index, condition_index);
-                          }}
-                        />
-                      </div>
-                    );
-                  }
-                )}
-                {index != termsAndConditons.length - 1 && isEditable ? (
-                  <Button
-                    onClick={() => {
-                      handleTerm(index, " ", "new");
-                    }}
-                    className="w-[200px] border border-dashed border-[var(--icon-color)] hover:bg-[var(--background)]"
-                    text={translateText("TERMS_AND_CONDIITION.NEW_TERM")}
-                  />
-                ) : (
-                  isEditable && (
-                    <div className="w-full gap-3 flex items-center justify-start">
-                      <Button
-                        onClick={() => {
-                          handleTerm("title");
-                        }}
-                        className="w-[200px] border border-dashed border-[var(--icon-color)] hover:bg-[var(--background)]"
-                        text={translateText("TERMS_AND_CONDIITION.NEW_GROUP")}
-                      />
-                      <Button
-                        onClick={() => {
-                          handleTerm(index, " ", "new");
-                        }}
-                        className="w-[200px] border border-dashed border-[var(--icon-color)] hover:bg-[var(--background)]"
-                        text={translateText("TERMS_AND_CONDIITION.NEW_TERM")}
-                      />
-                    </div>
-                  )
-                )}
-              </div>
-            );
-          })}
-        </CardLayout>
+        <ListInputs
+          addChildButtonName={translateText("TERMS_AND_CONDIITION.NEW_TERM")}
+          addGroupButtonName={translateText("TERMS_AND_CONDIITION.NEW_GROUP")}
+          handleSave={() => {
+            POST_TO_STORAGE(termsAndConditons, translateText("STORAGE.TERMS"));
+            toast.success("Terms stored to storage");
+          }}
+          datas={termsAndConditons}
+          setDatas={setTermsAndConditons}
+          defaultTitle={translateText("TERMS_AND_CONDIITION.TITLE")}
+          isEditable={isEditable}
+        />
       )}
     </div>
   );

@@ -193,5 +193,6 @@ export default function useQuotation() {
     termsAndConditons,
     handleTerm,
     handleDeleteTerm,
+    setTermsAndConditons,
   };
 }
