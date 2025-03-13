@@ -17,10 +17,10 @@ export default function Home() {
   const [isEditable, setisEditable] = useState(false);
   const { setOpenModal } = useGlobalStore();
   return (
-    <main className="min-h-screen bg-background-default py-8">
+    <main className=" bg-background-default py-8">
       <div className="max-w-[95%] sm:max-w-[auto] mx-auto ">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 no-print">
           <h1 className="text-3xl font-bold text-text-primary">
             Create Your Quotation
           </h1>
@@ -30,7 +30,7 @@ export default function Home() {
         </div>
 
         {/* Quotation Form */}
-        <div className="w-full flex flex-row-reverse items-center justify-between">
+        <div className="no-print w-full flex flex-row-reverse items-center justify-between">
           <Button
             onClick={() => {
               setisEditable(!isEditable);
@@ -56,7 +56,7 @@ export default function Home() {
             />
           )}
         </div>
-        <div className="w-full flex flex-row-reverse items-center justify-between">
+        <div className="no-print w-full flex flex-row-reverse items-center justify-between">
           {GET_FROM_STORAGE() && (
             <Button
               variant="primary"
@@ -65,7 +65,7 @@ export default function Home() {
             />
           )}
         </div>
-        <Box ref={printRef}>
+        <Box ref={printRef} className="print-content">
           <QuotationTemplate isEditable={isEditable} />
         </Box>
       </div>

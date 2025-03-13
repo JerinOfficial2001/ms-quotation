@@ -289,7 +289,6 @@ const CommonTable = ({
                     ...tableBodyCellCommonStyle(),
                     display: "flex",
                     flexDirection: "column",
-                    gap: 10,
                   }}
                   title={row[column]}
                   key={column}
@@ -313,8 +312,8 @@ const CommonTable = ({
                           index
                         );
                       }}
-                      addChildButtonName="Add description"
-                      addGroupButtonName="Add Title"
+                      addChildButtonName="Add Description"
+                      addGroupButtonName="Add Group"
                       datas={descriptions}
                       setDatas={setdescriptions}
                       defaultTitle="Add your description"

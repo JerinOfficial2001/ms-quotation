@@ -32,6 +32,51 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+@media print {
+   /* Avoid breaking inside the list of terms */
+   .terms-section {
+    page-break-inside: avoid;
+  }
+
+  /* Ensure list inputs and other sections are on separate pages if needed */
+  .list-inputs-section {
+    page-break-before: always;
+  }
+
+  .no-print {
+    display: none;
+  }
+
+  /* Prevent content from spilling over into other pages */
+  .print-content {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .print-content,
+  .page-break {
+    page-break-before: always;
+  }
+  .common-table {
+    overflow: visible;
+    page-break-inside: auto;
+  }
+
+  /* Add specific page breaks after certain sections */
+  .common-table-section {
+    page-break-after: always;
+  }
+  /* Optional: Make sure everything is printed in a neat way */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  @page {
+    size: auto;
+    margin: 5mm;
+  }
+}
 
 input[type="text"],
 input[type="number"],

@@ -29,7 +29,6 @@ export default function QuotationTemplate({ isEditable }: Props) {
     handleTerm,
     termsAndConditons,
     setTermsAndConditons,
-    handleDeleteTerm,
   } = useQuotation();
   const [allDetails, setallDetails] = useState<any>({
     client: null,
@@ -57,7 +56,7 @@ export default function QuotationTemplate({ isEditable }: Props) {
       }}
       className={`${
         isEditable ? "items-center" : "items-start"
-      } relative bg-[var(--white)] rounded-xl p-[10px] sm:p-[60px] max-w-[1024px] h-full flex flex-col justify-center gap-10`}
+      } relative bg-[var(--white)] rounded-xl p-[10px] sm:p-[60px] max-w-[1024px] h-full flex flex-col justify-center gap-5`}
     >
       <EditableTypography
         variant="header"
@@ -67,7 +66,7 @@ export default function QuotationTemplate({ isEditable }: Props) {
         setText={(text) => handleForm("title", text)}
       />
       <Grid2
-        spacing={3}
+        columnSpacing={3}
         container
         sx={{
           width: "100%",
@@ -288,7 +287,7 @@ export default function QuotationTemplate({ isEditable }: Props) {
             <EditableTypography text="SGST" />
             <EditableTypography text="₹0.00" className="!font-bold" />
           </div>
-          <div className="border-t-2 border-b-2 pt-4 pb-4 w-full flex items-center justify-between">
+          <div className="border-t-2 border-b-2 pt-2 pb-2 w-full flex items-center justify-between">
             <EditableTypography variant="title" text="Total" />
             <EditableTypography variant="title" text={`₹${total}.00`} />
           </div>
@@ -329,21 +328,25 @@ export default function QuotationTemplate({ isEditable }: Props) {
           />
         </div>
       )}
-
-      {termsAndConditons.length > 0 && (
-        <ListInputs
-          addChildButtonName={translateText("TERMS_AND_CONDIITION.NEW_TERM")}
-          addGroupButtonName={translateText("TERMS_AND_CONDIITION.NEW_GROUP")}
-          handleSave={() => {
-            POST_TO_STORAGE(termsAndConditons, translateText("STORAGE.TERMS"));
-            toast.success("Terms stored to storage");
-          }}
-          datas={termsAndConditons}
-          setDatas={setTermsAndConditons}
-          defaultTitle={translateText("TERMS_AND_CONDIITION.TITLE")}
-          isEditable={isEditable}
-        />
-      )}
+      <div className="terms-section w-full">
+        {termsAndConditons.length > 0 && (
+          <ListInputs
+            addChildButtonName={translateText("TERMS_AND_CONDIITION.NEW_TERM")}
+            addGroupButtonName={translateText("TERMS_AND_CONDIITION.NEW_GROUP")}
+            handleSave={() => {
+              POST_TO_STORAGE(
+                termsAndConditons,
+                translateText("STORAGE.TERMS")
+              );
+              toast.success("Terms stored to storage");
+            }}
+            datas={termsAndConditons}
+            setDatas={setTermsAndConditons}
+            defaultTitle={translateText("TERMS_AND_CONDIITION.TITLE")}
+            isEditable={isEditable}
+          />
+        )}
+      </div>
     </div>
   );
 }

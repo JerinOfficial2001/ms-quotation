@@ -28,11 +28,11 @@ export default function ImageComponent({
     <CardLayout
       variant={src ? "transparent" : undefined}
       onClick={onClick}
-      className={`${variant != "signature" && "!w-[270px]"} ${
+      className={`${variant != "signature" ? "!w-[270px]" : "!p-0"} ${
         !src && "hover:bg-[var(--border-secondary)] cursor-pointer"
-      }`}
+      }  terms-section`}
     >
-      <div className="flex items-center justify-center gap-2 flex-col text-[var(--text-secondary)]">
+      <div className="flex items-center justify-center flex-col text-[var(--text-secondary)]">
         {!src ? (
           <>
             <ImageIcon className="text-[var(--icon-color)]" />
@@ -52,7 +52,7 @@ export default function ImageComponent({
           <>
             {src && (
               <img
-                className={variant != "signature" ? "" : "h-[130px]"}
+                className={variant != "signature" ? "" : "h-[120px]"}
                 src={src instanceof File ? URL.createObjectURL(src) : src}
                 alt=""
               />

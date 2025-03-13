@@ -67,7 +67,7 @@ export default function ListInputs({
     <CardLayout
       className={`${
         !isEditable && "!bg-transparent !shadow-none"
-      } flex flex-col gap-2`}
+      } flex flex-col gap-0 !p-0 !pt-3`}
     >
       {isEditable && handleSave && (
         <div className="flex flex-row-reverse items-center w-full">
